@@ -1,0 +1,63 @@
+
+services:
+
+  nextapp:
+    container_name: to-do-nextapp
+    image: nextapp:1.0.0
+    build:
+      context: ./frontend
+      dockerfile: next.dockerfile
+      args:
+       NEXT_PUBLIC_API_URL: http://213.255.209.162:4000
+    ports:
+      - 3000:3000
+    environment:
+    - NEXT_PUBLIC_API_URL=http://213.255.209.162:4000
+    - DEBUG=true
+    depends_on:
+      - flaskapp
+    networks:
+      - shared_network
+    # volumes: # trying this out
+    #   - ./frontend:/app
+    #   - ./frontend/node_modules:/app/node_modules
+    # command: pnpm dev
+
+  # Flask backend service
+  flaskapp:
+    container_name: to-do-flaskapp
+    image: flaskapp:1.0.0
+    build:
+      context: ./backend
+      dockerfile: flask.dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+    networks:
+      - shared_network
+
+
+  # PostgreSQL database service
+  db:
+    container_name: to-do-db
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - shared_network
+
+volumes:
+  pgdata: {}
+
+networks:
+  shared_network:
+    driver: bridge
