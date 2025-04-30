@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import psycopg2
 # from app import db, app, ma
 
-from .test import Test, TestSchema
+from .default import Default, DefaultSchema
 
 
 # Assignment.submissions = db.relationship("Submission", backref='assignment', lazy=True)
@@ -30,7 +30,7 @@ from .test import Test, TestSchema
 # TA.caseStudies = db.relationship("CaseStudy", backref='ta', lazy=True)
 
 __all__ = [
-    'Test',
-    'TestSchema',
+    'Default',
+    'DefaultSchema',
 ]
 

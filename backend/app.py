@@ -6,7 +6,7 @@ from os import environ
 from flask_jwt_extended import JWTManager
 from .models.db import db, ma
 from .models import *
-from .controllers import test_controller
+from .controllers import default_controller
 from .utils.exceptions import errors_bp
 
 
@@ -48,7 +48,7 @@ def create_app():
   # ma = Marshmallow(app)
 
 
-  app.register_blueprint(test_controller.bp)
+  app.register_blueprint(default_controller.bp)
   app.register_blueprint(errors_bp)
 
   with app.app_context():

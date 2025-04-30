@@ -1,7 +1,7 @@
 from .db import db, ma
 
 
-class Test(db.Model):
+class Default(db.Model):
     __tablename__ = "test"
     
     id = db.Column("answer_id", db.Integer, primary_key=True)
@@ -22,8 +22,8 @@ class Test(db.Model):
         return cls.query.filter(cls.id == id).first()
     
 
-class TestSchema(ma.SQLAlchemyAutoSchema):
+class DefaultSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Test
+        model = Default
         session = db.session
         load_instance = True
